@@ -1,0 +1,10 @@
+<View>
+  <Audio name="audio" value="$audio" hotkey="space" zoom="true" volume="true"/>
+  
+  <TextArea name="transcription" 
+            toName="audio" 
+            editable="true"
+            perRegion="true"
+            required="false"
+            displayMode="region-list"/>
+</View>

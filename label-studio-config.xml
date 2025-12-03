@@ -1,0 +1,36 @@
+<View>
+  <Header value="Audio Transcription"/>
+  
+  <!-- Audio Player -->
+  <Audio name="audio" value="$audio" hotkey="space" sync="transcription"/>
+  
+  <!-- Transcription Text Area -->
+  <TextArea name="transcription" 
+            toName="audio" 
+            rows="10" 
+            editable="true"
+            maxSubmissions="1"
+            showSubmitButton="true"
+            placeholder="Transcription text will appear here..."/>
+  
+  <!-- Optional: Labels for speaker identification -->
+  <Labels name="speaker" toName="audio" choice="single">
+    <Label value="Speaker 1" background="#FF6B6B"/>
+    <Label value="Speaker 2" background="#4ECDC4"/>
+    <Label value="Speaker 3" background="#45B7D1"/>
+    <Label value="Speaker 4" background="#96CEB4"/>
+    <Label value="Unknown" background="#DFE4EA"/>
+  </Labels>
+  
+  <!-- Regions for audio segments -->
+  <View visibleWhen="region-selected">
+    <Header value="Selected Region"/>
+    <TextArea name="region_transcription" 
+              toName="audio" 
+              editable="true"
+              perRegion="true"
+              required="true"
+              placeholder="Type the transcription for this audio segment"/>
+  </View>
+</View>
+

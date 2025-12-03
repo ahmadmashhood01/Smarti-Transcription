@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafb;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.status-badge {
+  @apply px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-queued {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.status-transcribing {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-transcribed {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-ready_for_review {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.status-reviewed {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.status-error {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Waveform container */
+.waveform-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* Segment region styling - clear visual separation */
+.waveform-container .wavesurfer-region {
+  border-left: 2px solid #2563eb !important;
+  border-right: 2px solid #2563eb !important;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2) inset;
+}
+
+/* Make segment boundaries more visible */
+.waveform-container .wavesurfer-region:hover {
+  border-left: 3px solid #1d4ed8 !important;
+  border-right: 3px solid #1d4ed8 !important;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.3) inset;
+}
+
