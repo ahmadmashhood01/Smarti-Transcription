@@ -1,325 +1,331 @@
-# Smarti Transcription System
+<div align="center">
 
-A production-ready audio transcription system powered by OpenAI Whisper, Firebase, and Label Studio.
+# 🎙️ Smarti Transcription
 
-## Features
+### AI-Powered Audio Transcription Platform
 
-- **Automatic Transcription**: OpenAI Whisper API integration for high-quality speech-to-text
-- **Waveform Visualization**: Interactive audio playback with peaks.json generation
-- **Label Studio Integration**: Professional annotation workflow for reviewing and editing transcriptions
-- **Real-time Updates**: Live status updates using Firestore listeners
-- **Batch Processing**: Upload and process multiple audio files simultaneously
-- **Multiple Export Formats**: SRT, VTT, TXT, JSON
-- **Search & Filter**: Find transcriptions by filename, status, or date
-- **Modern UI**: Clean React interface with Tailwind CSS
+[![React](https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI_Whisper-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-## Architecture
+**Transform audio into accurate, editable transcriptions with the power of AI**
+
+[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Documentation](#-documentation) • [Contributing](#-contributing)
+
+---
+
+<img src="https://raw.githubusercontent.com/ahmadmashhood01/Smarti-Transcription/main/docs/demo-banner.png" alt="Smarti Transcription Demo" width="800"/>
+
+*Modern interface for uploading, transcribing, and reviewing audio files*
+
+</div>
+
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🤖 AI Transcription
+- **OpenAI Whisper** integration for 95%+ accuracy
+- Automatic segment detection with timestamps
+- Support for 50+ languages
+- Handles various audio qualities
+
+</td>
+<td width="50%">
+
+### 📊 Waveform Visualization
+- Interactive audio waveform display
+- Click-to-seek navigation
+- Pre-computed peaks for fast loading
+- Professional playback controls
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ✏️ Professional Review
+- **Label Studio** integration for editing
+- Pre-loaded AI transcriptions
+- Speaker identification support
+- Keyboard shortcuts for efficiency
+
+</td>
+<td width="50%">
+
+### 📤 Flexible Export
+- **SRT** - Video subtitles
+- **VTT** - Web captions
+- **TXT** - Plain text
+- **JSON** - Full data export
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ⚡ Real-Time Updates
+- Live transcription status
+- Firestore real-time listeners
+- No page refresh needed
+- Instant notifications
+
+</td>
+<td width="50%">
+
+### 🔄 Batch Processing
+- Multi-file upload
+- Parallel transcription
+- Progress tracking per file
+- Auto-scaling with demand
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
 
 ```
-[React Frontend] <---> [Node.js Backend] <---> [Firebase Firestore/Storage]
-                              |
-                              v
-                    [Label Studio Server]
-                              |
-                              v
-                    [Cloud Function] ---> [OpenAI Whisper API]
-                              |
-                              v
-                        [peaks.json generation]
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           Client Browser                                 │
+│                        http://localhost:3000                             │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+                  ┌───────────────┴───────────────┐
+                  │                               │
+                  ▼                               ▼
+          ┌──────────────┐               ┌───────────────┐
+          │  React App   │               │   Firebase    │
+          │  (Vite +     │               │  Firestore +  │
+          │  Tailwind)   │               │   Storage     │
+          └──────┬───────┘               └───────┬───────┘
+                 │                               │
+                 ▼                               ▼
+          ┌──────────────┐               ┌───────────────┐
+          │  Express.js  │               │Cloud Function │
+          │   Backend    │               │   (Whisper)   │
+          │    :5000     │               └───────┬───────┘
+          └──────┬───────┘                       │
+                 │                               ▼
+                 ▼                       ┌───────────────┐
+          ┌──────────────┐               │  OpenAI API   │
+          │ Label Studio │               │   (Whisper)   │
+          │    :8080     │               └───────────────┘
+          └──────────────┘
 ```
 
-### Services
+### Tech Stack
 
-1. **React Frontend** (Port 3000): Upload UI, transcription list, waveform player
-2. **Node.js Backend** (Port 5000): Export formatters, Label Studio API integration
-3. **Label Studio** (Port 8080): Annotation and review interface
-4. **Firebase Cloud Function**: Whisper transcription + peaks.json generation
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React 18, Vite, Tailwind CSS, WaveSurfer.js |
+| **Backend** | Node.js, Express, Firebase Admin SDK |
+| **Database** | Firebase Firestore (real-time NoSQL) |
+| **Storage** | Firebase Cloud Storage |
+| **AI/ML** | OpenAI Whisper API |
+| **Annotation** | Label Studio (self-hosted) |
+| **DevOps** | Docker, Docker Compose |
 
-## Prerequisites
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
 
 - Node.js 18+
 - Docker & Docker Compose
-- Firebase project with Firestore and Storage enabled
-- OpenAI API key with Whisper access
-- Firebase Admin SDK service account key
-
-## Setup
-
-### 1. Clone and Install
-
-```bash
-git clone <repository-url>
-cd Smarti_Transcription_3
-```
-
-### 2. Firebase Configuration
-
-1. Create a Firebase project at https://console.firebase.google.com
-2. Enable Firestore Database and Storage
-3. Download service account key:
-   - Go to Project Settings > Service Accounts
-   - Generate new private key
-   - Save as `serviceAccountKey.json` in project root
-
-4. Update `.firebaserc`:
-```json
-{
-  "projects": {
-    "default": "your-project-id"
-  }
-}
-```
-
-### 3. Environment Variables
-
-Copy `env.example` to `.env` and fill in your credentials:
-
-```bash
-cp env.example .env
-```
-
-Update `.env` with:
-- Firebase credentials
+- Firebase project
 - OpenAI API key
-- Label Studio API key (generated after first run)
 
-### 4. Deploy Firebase Rules
+### Installation
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/ahmadmashhood01/Smarti-Transcription.git
+cd Smarti-Transcription
+
+# 2. Install dependencies
+cd frontend && npm install && cd ..
+cd backend && npm install && cd ..
+cd cloud-functions && npm install && cd ..
+
+# 3. Configure environment
+cp env.example .env
+# Edit .env with your credentials
+
+# 4. Deploy Firebase
+firebase login
 firebase deploy --only firestore:rules,storage:rules
-```
-
-### 5. Deploy Cloud Function
-
-```bash
-cd cloud-functions
-npm install
-cd ..
-
-# Set OpenAI API key
-firebase functions:config:set openai.key="sk-your-openai-api-key"
-
-# Deploy
+firebase functions:config:set openai.key="sk-your-key"
 firebase deploy --only functions
-```
 
-### 6. Start Docker Services
-
-```bash
+# 5. Start services
 docker-compose up --build
 ```
 
-This starts:
-- Frontend: http://localhost:3000
-- Backend: http://localhost:5000
-- Label Studio: http://localhost:8080
+### Access Points
 
-### 7. Label Studio Setup
+| Service | URL | Description |
+|---------|-----|-------------|
+| 🎨 Frontend | http://localhost:3000 | Main application |
+| ⚙️ Backend | http://localhost:5000 | API server |
+| 🏷️ Label Studio | http://localhost:8080 | Annotation interface |
 
-1. Open http://localhost:8080
-2. Create account (or use default: admin@smarti.com / smarti123)
-3. Create a new project for audio transcription
-4. Get API token from Account & Settings
-5. Update `.env` with `LABEL_STUDIO_API_KEY` and `LABEL_STUDIO_PROJECT_ID`
-6. Restart backend: `docker-compose restart backend`
+---
 
-## Usage
+## 📖 Documentation
 
-### Upload Audio
+| Document | Description |
+|----------|-------------|
+| [📋 Project Documentation](PROJECT_DOCUMENTATION.md) | Complete system documentation |
+| [🏗️ Architecture Guide](ARCHITECTURE.md) | Detailed system architecture |
+| [🔧 Setup Guide](SETUP_GUIDE.md) | Step-by-step installation |
+| [🚀 Start Servers](START_SERVERS.md) | Running the services |
+| [🏷️ Label Studio Setup](LABEL_STUDIO_SETUP.md) | Annotation tool configuration |
+| [🔑 Get New Token](GET_NEW_TOKEN.md) | API token generation |
+| [❓ Troubleshooting](TROUBLESHOOTING.md) | Common issues & solutions |
 
-1. Go to http://localhost:3000
-2. Drag & drop audio files or click to upload
-3. Supported formats: MP3, WAV, M4A, OGG, FLAC
-4. Watch real-time transcription status
+---
 
-### Review in Label Studio
-
-1. Click on a transcription in the list
-2. Click "Create Label Studio Task" (first time only)
-3. Click "Edit in Label Studio" to open annotation interface
-4. Make corrections to the transcription
-5. Save in Label Studio
-6. Click "Sync from Label Studio" to update Firestore
-
-### Export Transcriptions
-
-1. Click on a transcription
-2. Click "Export"
-3. Choose format: SRT, VTT, TXT, or JSON
-4. File downloads automatically
-
-## Development
-
-### Frontend Development
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend Development
-
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-### Cloud Function Local Testing
-
-```bash
-cd cloud-functions
-npm install
-firebase emulators:start --only functions
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-.
-├── frontend/                 # React app (Vite)
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── services/        # Firebase & API services
-│   │   └── App.jsx          # Main app
-│   └── Dockerfile
-├── backend/                  # Node.js API
-│   ├── src/
-│   │   ├── routes/          # Express routes
-│   │   ├── services/        # Business logic
-│   │   └── server.js        # Express server
-│   └── Dockerfile
-├── cloud-functions/          # Firebase Cloud Functions
-│   └── transcribe/          # Whisper + peaks.json
-├── docker-compose.yml        # Multi-service setup
-├── firebase.json             # Firebase config
-├── firestore.rules           # Security rules
-└── storage.rules             # Storage rules
+Smarti-Transcription/
+├── 📁 frontend/                 # React application
+│   ├── 📁 src/
+│   │   ├── 📁 components/      # UI components
+│   │   │   ├── AudioUploader.jsx
+│   │   │   ├── TranscriptionList.jsx
+│   │   │   ├── WaveformPlayer.jsx
+│   │   │   ├── TaskDetails.jsx
+│   │   │   └── ExportDialog.jsx
+│   │   ├── 📁 services/        # API & Firebase
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── Dockerfile
+│   └── package.json
+│
+├── 📁 backend/                  # Express API
+│   ├── 📁 src/
+│   │   ├── 📁 routes/          # API endpoints
+│   │   ├── 📁 services/        # Business logic
+│   │   └── server.js
+│   ├── Dockerfile
+│   └── package.json
+│
+├── 📁 cloud-functions/          # Firebase Functions
+│   ├── 📁 transcribe/          # Whisper integration
+│   └── index.js
+│
+├── 📄 docker-compose.yml        # Container orchestration
+├── 📄 firebase.json             # Firebase config
+├── 📄 firestore.rules           # Database security
+└── 📄 storage.rules             # Storage security
 ```
 
-## Firestore Schema
+---
 
-### Collection: `projects/{projectId}/tasks/{taskId}`
+## 🔄 Workflow
 
-```javascript
-{
-  id: string,
-  audioUrl: string,              // Storage URL
-  peaksUrl: string,              // Waveform peaks.json
-  filename: string,
-  duration: number,
-  status: 'queued' | 'transcribing' | 'transcribed' | 'ready_for_review' | 'reviewed' | 'error',
-  whisper: {
-    model: 'whisper-1',
-    raw_response: object
-  },
-  segments: [{
-    id: string,
-    start: number,
-    end: number,
-    text: string,
-    speaker: string | null
-  }],
-  labelStudioTaskId: number,     // LS task ID
-  labelStudioUrl: string,         // Direct link
-  createdAt: timestamp,
-  updatedAt: timestamp,
-  metadata: {
-    fileSize: number,
-    mimeType: string
-  }
-}
+```mermaid
+graph LR
+    A[📤 Upload Audio] --> B[📋 Create Task]
+    B --> C[🤖 Whisper AI]
+    C --> D[📊 Generate Waveform]
+    D --> E[✅ Transcribed]
+    E --> F[✏️ Review in Label Studio]
+    F --> G[🔄 Sync Changes]
+    G --> H[📤 Export SRT/VTT/TXT]
 ```
 
-## API Endpoints
+### Status Flow
 
-### Backend (Port 5000)
+| Status | Description |
+|--------|-------------|
+| 🟡 `queued` | Task created, waiting for processing |
+| 🔵 `transcribing` | Whisper AI processing audio |
+| 🟢 `transcribed` | Transcription complete |
+| 🟣 `ready_for_review` | Sent to Label Studio |
+| ✅ `reviewed` | Human review complete |
+| 🔴 `error` | Processing failed |
 
-**Export**
-- `GET /api/export/:taskId?format=srt&projectId=default` - Export task
-- `POST /api/export/batch` - Batch export
+---
 
-**Label Studio**
-- `POST /api/label-studio/create` - Create LS task
-- `POST /api/label-studio/sync/:taskId` - Sync annotations
-- `GET /api/label-studio/task/:taskId` - Get LS task URL
-- `DELETE /api/label-studio/task/:taskId` - Delete LS task
+## 💰 Cost Estimate
 
-## Troubleshooting
+| Usage | OpenAI Whisper | Firebase | Total |
+|-------|----------------|----------|-------|
+| 10 hrs/month | ~$3.60 | Free tier | ~$4 |
+| 50 hrs/month | ~$18 | Free tier | ~$18 |
+| 100 hrs/month | ~$36 | ~$3 | ~$40 |
 
-### Cloud Function Errors
+*OpenAI Whisper: $0.006 per minute of audio*
 
-Check logs:
-```bash
-firebase functions:log
-```
+---
 
-### Docker Issues
+## 🛣️ Roadmap
 
-Restart services:
-```bash
-docker-compose down
-docker-compose up --build
-```
+- [x] Core transcription with Whisper
+- [x] Waveform visualization
+- [x] Label Studio integration
+- [x] Multi-format export (SRT, VTT, TXT, JSON)
+- [x] Real-time status updates
+- [ ] 🔜 Speaker diarization
+- [ ] 🔜 Firebase Authentication
+- [ ] 🔜 Real-time streaming transcription
+- [ ] 🔜 Multi-language translation
+- [ ] 🔜 Video file support
+- [ ] 🔜 Team collaboration features
 
-View logs:
-```bash
-docker-compose logs -f
-```
+---
 
-### Firebase Connection Issues
+## 🤝 Contributing
 
-1. Verify `serviceAccountKey.json` is in project root
-2. Check Firebase project ID in `.firebaserc`
-3. Ensure Firestore and Storage are enabled
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Label Studio Connection
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-1. Verify Label Studio is running: `docker ps`
-2. Check API key is set in `.env`
-3. Verify project ID exists in Label Studio
+---
 
-## Security
+## 📄 License
 
-### Production Deployment
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Before deploying to production:
+---
 
-1. **Update Firebase Rules**: Add authentication checks
-2. **Environment Variables**: Use secret managers (Google Secret Manager, AWS Secrets)
-3. **API Keys**: Rotate regularly, use key restrictions
-4. **CORS**: Configure proper origins for backend
-5. **Rate Limiting**: Add rate limits to APIs
-6. **Monitoring**: Set up error tracking (Sentry) and monitoring
+## 👨‍💻 Author
 
-### Current Rules (Development Only)
+<div align="center">
 
-⚠️ Current Firebase rules allow all reads/writes. Update before production!
+**Ahmad Mashhood**
 
-## Cost Estimates
+[![GitHub](https://img.shields.io/badge/GitHub-ahmadmashhood01-181717?style=for-the-badge&logo=github)](https://github.com/ahmadmashhood01)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-ahmad--mashhood-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/ahmad-mashhood)
+[![IEEE](https://img.shields.io/badge/IEEE-Author-00629B?style=for-the-badge&logo=ieee)](https://ieeexplore.ieee.org/author/128556490427964)
 
-- **OpenAI Whisper**: ~$0.006 per minute of audio
-- **Firebase Storage**: ~$0.026 per GB
-- **Firestore**: Free tier includes 50K reads, 20K writes per day
-- **Cloud Functions**: Free tier includes 2M invocations per month
-- **Label Studio**: Free (self-hosted)
+*Artificial Intelligence @ GIK Institute of Engineering Sciences and Technology*
 
-## Next Steps
+</div>
 
-- [ ] Add Firebase Authentication
-- [ ] Implement speaker diarization
-- [ ] Add rate limiting
-- [ ] Set up monitoring dashboard
-- [ ] Deploy to production
-- [ ] Add webhook notifications
-- [ ] Implement team collaboration features
+---
 
-## License
+<div align="center">
 
-MIT
+**⭐ Star this repository if you find it helpful!**
 
-## Support
+Made with ❤️ in Pakistan 🇵🇰
 
-For issues and questions, please open an issue on GitHub.
-
+</div>
