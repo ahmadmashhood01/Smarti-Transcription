@@ -40,7 +40,7 @@ firebase functions:config:get
 
 **If not set:**
 ```bash
-firebase functions:config:set openai.key="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"
+firebase functions:config:set openai.key="sk-your-openai-api-key-here"
 firebase deploy --only functions
 ```
 
@@ -78,7 +78,7 @@ The Cloud Function expects:
 # Verify project is set correctly
 firebase projects:list
 
-# Current project should be: smartitranscription-e23ff
+# Check current project
 firebase use
 ```
 
@@ -128,7 +128,7 @@ firebase deploy --only functions
 
 ```bash
 # Check if bucket exists
-gsutil ls gs://smartitranscription-e23ff.firebasestorage.app
+gsutil ls gs://your-project-id.appspot.com
 
 # Check storage rules
 firebase deploy --only storage:rules
@@ -189,4 +189,3 @@ firebase deploy --only functions --dry-run
    - Share function logs
    - Share task document structure
    - Share error messages
-
