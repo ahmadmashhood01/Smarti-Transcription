@@ -260,9 +260,3 @@ graph LR
 
 ---
 
-
-**⭐ Star this repository if you find it helpful!**
-
-Made with ❤️ in Pakistan 🇵🇰
-
-</div>
